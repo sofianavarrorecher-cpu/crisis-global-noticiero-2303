@@ -10,33 +10,102 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as BuscarRouteImport } from './routes/buscar'
+import { Route as CronologiaRouteImport } from './routes/cronologia'
+import { Route as SobreEsteProyectoRouteImport } from './routes/sobre-este-proyecto'
+import { Route as NotaSlugRouteImport } from './routes/nota.$slug'
+import { Route as SeccionSlugRouteImport } from './routes/seccion.$slug'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const BuscarRoute = BuscarRouteImport.update({
+  id: '/buscar',
+  path: '/buscar',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const CronologiaRoute = CronologiaRouteImport.update({
+  id: '/cronologia',
+  path: '/cronologia',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const SobreEsteProyectoRoute = SobreEsteProyectoRouteImport.update({
+  id: '/sobre-este-proyecto',
+  path: '/sobre-este-proyecto',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const NotaSlugRoute = NotaSlugRouteImport.update({
+  id: '/nota/$slug',
+  path: '/nota/$slug',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const SeccionSlugRoute = SeccionSlugRouteImport.update({
+  id: '/seccion/$slug',
+  path: '/seccion/$slug',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/buscar': typeof BuscarRoute
+  '/cronologia': typeof CronologiaRoute
+  '/sobre-este-proyecto': typeof SobreEsteProyectoRoute
+  '/nota/$slug': typeof NotaSlugRoute
+  '/seccion/$slug': typeof SeccionSlugRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/buscar': typeof BuscarRoute
+  '/cronologia': typeof CronologiaRoute
+  '/sobre-este-proyecto': typeof SobreEsteProyectoRoute
+  '/nota/$slug': typeof NotaSlugRoute
+  '/seccion/$slug': typeof SeccionSlugRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/buscar': typeof BuscarRoute
+  '/cronologia': typeof CronologiaRoute
+  '/sobre-este-proyecto': typeof SobreEsteProyectoRoute
+  '/nota/$slug': typeof NotaSlugRoute
+  '/seccion/$slug': typeof SeccionSlugRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/'
+  fullPaths:
+    | '/'
+    | '/buscar'
+    | '/cronologia'
+    | '/sobre-este-proyecto'
+    | '/nota/$slug'
+    | '/seccion/$slug'
   fileRoutesByTo: FileRoutesByTo
-  to: '/'
-  id: '__root__' | '/'
+  to:
+    | '/'
+    | '/buscar'
+    | '/cronologia'
+    | '/sobre-este-proyecto'
+    | '/nota/$slug'
+    | '/seccion/$slug'
+  id:
+    | '__root__'
+    | '/'
+    | '/buscar'
+    | '/cronologia'
+    | '/sobre-este-proyecto'
+    | '/nota/$slug'
+    | '/seccion/$slug'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  BuscarRoute: typeof BuscarRoute
+  CronologiaRoute: typeof CronologiaRoute
+  SobreEsteProyectoRoute: typeof SobreEsteProyectoRoute
+  NotaSlugRoute: typeof NotaSlugRoute
+  SeccionSlugRoute: typeof SeccionSlugRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -48,11 +117,51 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/buscar': {
+      id: '/buscar'
+      path: '/buscar'
+      fullPath: '/buscar'
+      preLoaderRoute: typeof BuscarRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/cronologia': {
+      id: '/cronologia'
+      path: '/cronologia'
+      fullPath: '/cronologia'
+      preLoaderRoute: typeof CronologiaRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/sobre-este-proyecto': {
+      id: '/sobre-este-proyecto'
+      path: '/sobre-este-proyecto'
+      fullPath: '/sobre-este-proyecto'
+      preLoaderRoute: typeof SobreEsteProyectoRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/nota/$slug': {
+      id: '/nota/$slug'
+      path: '/nota/$slug'
+      fullPath: '/nota/$slug'
+      preLoaderRoute: typeof NotaSlugRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/seccion/$slug': {
+      id: '/seccion/$slug'
+      path: '/seccion/$slug'
+      fullPath: '/seccion/$slug'
+      preLoaderRoute: typeof SeccionSlugRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  BuscarRoute: BuscarRoute,
+  CronologiaRoute: CronologiaRoute,
+  SobreEsteProyectoRoute: SobreEsteProyectoRoute,
+  NotaSlugRoute: NotaSlugRoute,
+  SeccionSlugRoute: SeccionSlugRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
