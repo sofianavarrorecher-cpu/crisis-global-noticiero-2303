@@ -12,6 +12,7 @@ import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as BuscarRouteImport } from './routes/buscar'
 import { Route as CronologiaRouteImport } from './routes/cronologia'
+import { Route as EnVivoRouteImport } from './routes/en-vivo'
 import { Route as SobreEsteProyectoRouteImport } from './routes/sobre-este-proyecto'
 import { Route as NotaSlugRouteImport } from './routes/nota.$slug'
 import { Route as SeccionSlugRouteImport } from './routes/seccion.$slug'
@@ -29,6 +30,11 @@ const BuscarRoute = BuscarRouteImport.update({
 const CronologiaRoute = CronologiaRouteImport.update({
   id: '/cronologia',
   path: '/cronologia',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const EnVivoRoute = EnVivoRouteImport.update({
+  id: '/en-vivo',
+  path: '/en-vivo',
   getParentRoute: () => rootRouteImport,
 } as any)
 const SobreEsteProyectoRoute = SobreEsteProyectoRouteImport.update({
@@ -51,6 +57,7 @@ export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/buscar': typeof BuscarRoute
   '/cronologia': typeof CronologiaRoute
+  '/en-vivo': typeof EnVivoRoute
   '/sobre-este-proyecto': typeof SobreEsteProyectoRoute
   '/nota/$slug': typeof NotaSlugRoute
   '/seccion/$slug': typeof SeccionSlugRoute
@@ -59,6 +66,7 @@ export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/buscar': typeof BuscarRoute
   '/cronologia': typeof CronologiaRoute
+  '/en-vivo': typeof EnVivoRoute
   '/sobre-este-proyecto': typeof SobreEsteProyectoRoute
   '/nota/$slug': typeof NotaSlugRoute
   '/seccion/$slug': typeof SeccionSlugRoute
@@ -68,6 +76,7 @@ export interface FileRoutesById {
   '/': typeof IndexRoute
   '/buscar': typeof BuscarRoute
   '/cronologia': typeof CronologiaRoute
+  '/en-vivo': typeof EnVivoRoute
   '/sobre-este-proyecto': typeof SobreEsteProyectoRoute
   '/nota/$slug': typeof NotaSlugRoute
   '/seccion/$slug': typeof SeccionSlugRoute
@@ -78,6 +87,7 @@ export interface FileRouteTypes {
     | '/'
     | '/buscar'
     | '/cronologia'
+    | '/en-vivo'
     | '/sobre-este-proyecto'
     | '/nota/$slug'
     | '/seccion/$slug'
@@ -86,6 +96,7 @@ export interface FileRouteTypes {
     | '/'
     | '/buscar'
     | '/cronologia'
+    | '/en-vivo'
     | '/sobre-este-proyecto'
     | '/nota/$slug'
     | '/seccion/$slug'
@@ -94,6 +105,7 @@ export interface FileRouteTypes {
     | '/'
     | '/buscar'
     | '/cronologia'
+    | '/en-vivo'
     | '/sobre-este-proyecto'
     | '/nota/$slug'
     | '/seccion/$slug'
@@ -103,6 +115,7 @@ export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   BuscarRoute: typeof BuscarRoute
   CronologiaRoute: typeof CronologiaRoute
+  EnVivoRoute: typeof EnVivoRoute
   SobreEsteProyectoRoute: typeof SobreEsteProyectoRoute
   NotaSlugRoute: typeof NotaSlugRoute
   SeccionSlugRoute: typeof SeccionSlugRoute
@@ -129,6 +142,13 @@ declare module '@tanstack/react-router' {
       path: '/cronologia'
       fullPath: '/cronologia'
       preLoaderRoute: typeof CronologiaRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/en-vivo': {
+      id: '/en-vivo'
+      path: '/en-vivo'
+      fullPath: '/en-vivo'
+      preLoaderRoute: typeof EnVivoRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/sobre-este-proyecto': {
@@ -159,6 +179,7 @@ const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   BuscarRoute: BuscarRoute,
   CronologiaRoute: CronologiaRoute,
+  EnVivoRoute: EnVivoRoute,
   SobreEsteProyectoRoute: SobreEsteProyectoRoute,
   NotaSlugRoute: NotaSlugRoute,
   SeccionSlugRoute: SeccionSlugRoute,
