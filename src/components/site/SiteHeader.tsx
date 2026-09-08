@@ -150,27 +150,41 @@ export function SiteHeader() {
               <SearchBox onDone={() => setOpen(false)} />
             </div>
             <ul className="border-t border-border">
-              {[
-                { to: "/", label: "Portada" },
-                ...sections.map((s) => ({
-                  to: "/seccion/$slug" as const,
-                  label: s.name,
-                  slug: s.slug,
-                })),
-                { to: "/cronologia", label: "Cronología" },
-                { to: "/sobre-este-proyecto", label: "Sobre este proyecto" },
-              ].map((item: any) => (
-                <li key={item.label} className="border-b border-border">
+              <li className="border-b border-border">
+                <Link to="/" onClick={() => setOpen(false)} className="kicker block px-4 py-3">
+                  Portada
+                </Link>
+              </li>
+              {sections.map((s) => (
+                <li key={s.slug} className="border-b border-border">
                   <Link
-                    to={item.to}
-                    params={item.slug ? { slug: item.slug } : undefined}
+                    to="/seccion/$slug"
+                    params={{ slug: s.slug }}
                     onClick={() => setOpen(false)}
                     className="kicker block px-4 py-3"
                   >
-                    {item.label}
+                    {s.name}
                   </Link>
                 </li>
               ))}
+              <li className="border-b border-border">
+                <Link
+                  to="/cronologia"
+                  onClick={() => setOpen(false)}
+                  className="kicker block px-4 py-3"
+                >
+                  Cronología
+                </Link>
+              </li>
+              <li className="border-b border-border">
+                <Link
+                  to="/sobre-este-proyecto"
+                  onClick={() => setOpen(false)}
+                  className="kicker block px-4 py-3"
+                >
+                  Sobre este proyecto
+                </Link>
+              </li>
             </ul>
           </div>
         )}
