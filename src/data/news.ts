@@ -30,6 +30,7 @@ export type Article = {
   copete: string;
   image: string;
   imageAlt: string;
+  imageCredit?: string;
   author: string;
   date: string;
   updated: string;
@@ -43,8 +44,7 @@ export const sections: Section[] = [
   {
     slug: "medio-oriente",
     name: "Medio Oriente",
-    description:
-      "Israel y Palestina, la Franja de Gaza y la escalada entre Irán y Estados Unidos.",
+    description: "Israel y Palestina, la Franja de Gaza y la escalada entre Irán y Estados Unidos.",
   },
   {
     slug: "africa",
@@ -84,7 +84,8 @@ export const articles: Article[] = [
       "A casi cinco años de la vuelta del régimen talibán, la ONU habla de “apartheid de género”. Cerca de 21,9 millones de personas —el 45% de la población— necesitan asistencia humanitaria.",
     image: afganistan,
     imageAlt:
-      "Calle polvorienta de una ciudad afgana con un patio escolar vacío y montañas al fondo",
+      "Escolares afganas en Bamozai, en una fotografía de archivo de la Fuerza Aérea de Estados Unidos",
+    imageCredit: "Foto: Capt. John Severns, U.S. Air Force · Wikimedia Commons · Dominio público",
     author: "Redacción Crisis Global",
     date: "2026-08-20",
     updated: "2026-08-25",
@@ -150,7 +151,8 @@ export const articles: Article[] = [
     copete:
       "Un conflicto de larga data que escaló desde octubre de 2023. Los organismos humanitarios describen desplazamiento masivo y escasez de alimentos, agua y atención médica; el gobierno israelí sostiene que sus operaciones responden a su seguridad nacional.",
     image: gaza,
-    imageAlt: "Edificios destruidos y escombros en una ciudad de Medio Oriente",
+    imageAlt: "Vista del mar Mediterráneo desde la costa de Gaza",
+    imageCredit: "Foto: Marius Arnesen · Wikimedia Commons · CC BY-SA 2.0",
     author: "Redacción Crisis Global",
     date: "2026-08-22",
     updated: "2026-08-25",
@@ -178,10 +180,22 @@ export const articles: Article[] = [
       { type: "note", text: VERIFY },
     ],
     timeline: [
-      { date: "Octubre de 2023", text: "Mayor escalada del conflicto y comienzo de la ofensiva en Gaza." },
-      { date: "2024", text: "Desplazamiento interno masivo y alertas humanitarias sucesivas de la ONU." },
-      { date: "2025", text: "Rondas intermitentes de negociación de alto el fuego con mediación regional." },
-      { date: "2026", text: "Continúan las restricciones de acceso y la discusión sobre el desarme de Hamas." },
+      {
+        date: "Octubre de 2023",
+        text: "Mayor escalada del conflicto y comienzo de la ofensiva en Gaza.",
+      },
+      {
+        date: "2024",
+        text: "Desplazamiento interno masivo y alertas humanitarias sucesivas de la ONU.",
+      },
+      {
+        date: "2025",
+        text: "Rondas intermitentes de negociación de alto el fuego con mediación regional.",
+      },
+      {
+        date: "2026",
+        text: "Continúan las restricciones de acceso y la discusión sobre el desarme de Hamas.",
+      },
     ],
     sources: [
       { name: "ONU — OCHA", url: "https://www.unocha.org" },
@@ -199,7 +213,9 @@ export const articles: Article[] = [
     copete:
       "Desde fines de febrero de 2026 hay hostilidades abiertas tras ataques estadounidenses e israelíes contra instalaciones iraníes. El bloqueo de facto de Ormuz altera el comercio energético mundial.",
     image: iran,
-    imageAlt: "Buques petroleros navegando en un estrecho al atardecer",
+    imageAlt:
+      "El buque anfibio USS Tarawa cruza el Estrecho de Ormuz en dirección al golfo Pérsico",
+    imageCredit: "Foto: U.S. Navy / Aaron H. Leicht · Wikimedia Commons · Dominio público",
     author: "Redacción Crisis Global",
     date: "2026-08-23",
     updated: "2026-08-25",
@@ -231,8 +247,14 @@ export const articles: Article[] = [
       { type: "note", text: VERIFY },
     ],
     timeline: [
-      { date: "Febrero de 2026", text: "Ataques de EE.UU. e Israel contra instalaciones iraníes; comienzan las hostilidades abiertas." },
-      { date: "Marzo de 2026", text: "Bloqueo de facto del Estrecho de Ormuz y suba de los precios del crudo." },
+      {
+        date: "Febrero de 2026",
+        text: "Ataques de EE.UU. e Israel contra instalaciones iraníes; comienzan las hostilidades abiertas.",
+      },
+      {
+        date: "Marzo de 2026",
+        text: "Bloqueo de facto del Estrecho de Ormuz y suba de los precios del crudo.",
+      },
       { date: "Junio de 2026", text: "Memorando de entendimiento firmado con mediación de Omán." },
       { date: "Agosto de 2026", text: "Las conversaciones se suspenden nuevamente." },
     ],
@@ -251,7 +273,8 @@ export const articles: Article[] = [
     copete:
       "El grupo armado tomó Goma en enero de 2025 y luego Bukavu. La ONU señala apoyo de fuerzas ruandesas —Kigali lo niega— y los combates siguen pese al Acuerdo Marco de Doha.",
     image: congo,
-    imageAlt: "Mina artesanal de coltán en el este del Congo, tierra roja y colinas verdes",
+    imageAlt: "Personal de enlace comunitario de MONUSCO en Goma, Kivu del Norte",
+    imageCredit: "Foto: MONUSCO/Myriam Asmani · Wikimedia Commons · CC BY-SA 2.0",
     author: "Redacción Crisis Global",
     date: "2026-08-21",
     updated: "2026-08-25",
@@ -293,14 +316,23 @@ export const articles: Article[] = [
     ],
     timeline: [
       { date: "Enero de 2025", text: "El M23 toma Goma, capital de Kivu del Norte." },
-      { date: "Febrero de 2025", text: "Toma de Bukavu y ejecuciones sumarias documentadas en el barrio de Kasika." },
+      {
+        date: "Febrero de 2025",
+        text: "Toma de Bukavu y ejecuciones sumarias documentadas en el barrio de Kasika.",
+      },
       { date: "Noviembre de 2025", text: "Firma del Acuerdo Marco de Doha." },
-      { date: "Febrero de 2026", text: "Mecanismo de monitoreo del cese el fuego facilitado por Catar." },
+      {
+        date: "Febrero de 2026",
+        text: "Mecanismo de monitoreo del cese el fuego facilitado por Catar.",
+      },
     ],
     sources: [
       { name: "Human Rights Watch", url: "https://www.hrw.org" },
       { name: "MONUSCO", url: "https://monusco.unmissions.org" },
-      { name: "Grupo de Expertos de la ONU sobre la RDC", url: "https://www.un.org/securitycouncil/sanctions/1533/panel-of-experts" },
+      {
+        name: "Grupo de Expertos de la ONU sobre la RDC",
+        url: "https://www.un.org/securitycouncil/sanctions/1533/panel-of-experts",
+      },
       { name: "Global Witness", url: "https://www.globalwitness.org" },
       { name: "Fundación Panzi", url: "https://panzifoundation.org" },
     ],
@@ -309,11 +341,13 @@ export const articles: Article[] = [
     slug: "cuerno-de-africa-etiopia-somalia",
     section: "africa",
     category: "Crisis Humanitaria",
-    title: "Cuerno de África: inestabilidad en Etiopía y Somalia, con la sequía como telón de fondo",
+    title:
+      "Cuerno de África: inestabilidad en Etiopía y Somalia, con la sequía como telón de fondo",
     copete:
       "La crisis en Tigray y Amhara y la actividad de Al Shabaab se combinan con desplazamiento, hambruna y sequía en una de las regiones más frágiles del continente.",
     image: cuernoAfrica,
-    imageAlt: "Suelo agrietado por la sequía con campamento de desplazados al fondo",
+    imageAlt: "Edificio del antiguo Parlamento de Mogadishu, Somalia",
+    imageCredit: "Foto: AMISOM Public Information · Wikimedia Commons · CC0",
     author: "Redacción Crisis Global",
     date: "2026-08-18",
     updated: "2026-08-25",
@@ -336,7 +370,10 @@ export const articles: Article[] = [
     timeline: [
       { date: "2020-2022", text: "Conflicto armado en la región etíope de Tigray." },
       { date: "2023-2025", text: "Escalada de tensiones en Amhara y ciclos de sequía sucesivos." },
-      { date: "2026", text: "Persisten los ataques de Al Shabaab en Somalia y el desplazamiento regional." },
+      {
+        date: "2026",
+        text: "Persisten los ataques de Al Shabaab en Somalia y el desplazamiento regional.",
+      },
     ],
     sources: [
       { name: "ACNUR", url: "https://www.unhcr.org" },
@@ -352,7 +389,8 @@ export const articles: Article[] = [
     copete:
       "Un sismo de magnitud 7,2 seguido segundos después por otro de 7,5, con epicentro en Yaracuy, golpeó La Guaira, Caracas y el Distrito Capital.",
     image: venezuela,
-    imageAlt: "Edificios dañados por un terremoto con carpas de asistencia en el frente",
+    imageAlt: "Vista histórica de Caracas con el Hotel Majestica",
+    imageCredit: "Foto: Willem van de Poll · Wikimedia Commons · CC0",
     author: "Redacción Crisis Global",
     date: "2026-08-19",
     updated: "2026-08-25",
@@ -375,9 +413,18 @@ export const articles: Article[] = [
       { type: "note", text: VERIFY },
     ],
     timeline: [
-      { date: "24 de junio de 2026", text: "Sismos de magnitud 7,2 y 7,5 con epicentro en Yaracuy." },
-      { date: "Fines de junio de 2026", text: "Llegada de asistencia internacional de la región y de España." },
-      { date: "Julio-agosto de 2026", text: "Actualización sucesiva del saldo de víctimas y del relevamiento de viviendas." },
+      {
+        date: "24 de junio de 2026",
+        text: "Sismos de magnitud 7,2 y 7,5 con epicentro en Yaracuy.",
+      },
+      {
+        date: "Fines de junio de 2026",
+        text: "Llegada de asistencia internacional de la región y de España.",
+      },
+      {
+        date: "Julio-agosto de 2026",
+        text: "Actualización sucesiva del saldo de víctimas y del relevamiento de viviendas.",
+      },
     ],
     sources: [
       { name: "OPS/OMS", url: "https://www.paho.org" },
@@ -394,7 +441,8 @@ export const articles: Article[] = [
     copete:
       "No es una ley ni un proyecto legislativo. Es una propuesta impulsada por sectores del conservadurismo y el nacionalismo cristiano estadounidense. El voto femenino sigue plenamente vigente y protegido por la 19.ª Enmienda.",
     image: eeuu,
-    imageAlt: "Cabinas de votación vacías en un centro electoral de Estados Unidos",
+    imageAlt: "Cabina de votación en un colegio electoral de Estados Unidos",
+    imageCredit: "Foto: Tomwsulcer · Wikimedia Commons · CC0",
     author: "Redacción Crisis Global",
     date: "2026-08-24",
     updated: "2026-08-25",
@@ -433,9 +481,18 @@ export const articles: Article[] = [
       },
     ],
     timeline: [
-      { date: "1920", text: "La 19.ª Enmienda garantiza el derecho al voto de las mujeres en EE.UU." },
-      { date: "Junio de 2026", text: "Cumbre de Liderazgo Femenino de Turning Point USA en San Antonio, Texas." },
-      { date: "Julio de 2026", text: "El debate se amplifica en medios internacionales y organizaciones de derechos civiles responden." },
+      {
+        date: "1920",
+        text: "La 19.ª Enmienda garantiza el derecho al voto de las mujeres en EE.UU.",
+      },
+      {
+        date: "Junio de 2026",
+        text: "Cumbre de Liderazgo Femenino de Turning Point USA en San Antonio, Texas.",
+      },
+      {
+        date: "Julio de 2026",
+        text: "El debate se amplifica en medios internacionales y organizaciones de derechos civiles responden.",
+      },
     ],
     sources: [
       { name: "ACLU", url: "https://www.aclu.org" },
@@ -452,7 +509,8 @@ export const articles: Article[] = [
     copete:
       "Cambio climático, sobreexplotación de acuíferos y crecimiento poblacional reducen la disponibilidad por habitante en Medio Oriente, el norte de África, el sur de Asia y partes de América Latina.",
     image: agua,
-    imageAlt: "Embalse casi seco con suelo agrietado y colinas al fondo",
+    imageAlt: "Embalse con el nivel del agua bajo durante un episodio de sequía",
+    imageCredit: "Foto: Mhockey · Wikimedia Commons · CC BY-SA 4.0",
     author: "Redacción Crisis Global",
     date: "2026-08-17",
     updated: "2026-08-25",
@@ -475,9 +533,18 @@ export const articles: Article[] = [
       { type: "note", text: VERIFY },
     ],
     timeline: [
-      { date: "2023", text: "El WRI advierte que un cuarto de la población mundial vive con estrés hídrico extremadamente alto." },
-      { date: "2025", text: "Nuevas alertas de ONU-Agua sobre la caída de la disponibilidad per cápita." },
-      { date: "2026", text: "La sequía se consolida como factor de desplazamiento en Asia Central y el Cuerno de África." },
+      {
+        date: "2023",
+        text: "El WRI advierte que un cuarto de la población mundial vive con estrés hídrico extremadamente alto.",
+      },
+      {
+        date: "2025",
+        text: "Nuevas alertas de ONU-Agua sobre la caída de la disponibilidad per cápita.",
+      },
+      {
+        date: "2026",
+        text: "La sequía se consolida como factor de desplazamiento en Asia Central y el Cuerno de África.",
+      },
     ],
     sources: [
       { name: "ONU-Agua", url: "https://www.unwater.org" },
@@ -506,15 +573,24 @@ export const breakingHeadlines = [
 
 export const getArticle = (slug: string) => articles.find((a) => a.slug === slug);
 export const getSection = (slug: string) => sections.find((s) => s.slug === slug);
-export const articlesBySection = (slug: string) =>
-  articles.filter((a) => a.section === slug);
+export const articlesBySection = (slug: string) => articles.filter((a) => a.section === slug);
 export const sectionName = (slug: string) => getSection(slug)?.name ?? slug;
 
 export const mostRead = [...articles].sort((a, b) => b.reads - a.reads).slice(0, 5);
 
 const monthNames = [
-  "enero", "febrero", "marzo", "abril", "mayo", "junio",
-  "julio", "agosto", "septiembre", "octubre", "noviembre", "diciembre",
+  "enero",
+  "febrero",
+  "marzo",
+  "abril",
+  "mayo",
+  "junio",
+  "julio",
+  "agosto",
+  "septiembre",
+  "octubre",
+  "noviembre",
+  "diciembre",
 ];
 
 export function formatDate(iso: string) {

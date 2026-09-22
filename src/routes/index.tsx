@@ -4,6 +4,7 @@ import { SiteFooter } from "@/components/site/SiteFooter";
 import { NewsCard } from "@/components/site/NewsCard";
 import { MostRead, SectionTitle, Timeline } from "@/components/site/Sidebar";
 import { HomeLiveFeed } from "@/components/site/HomeLiveFeed";
+import { FeaturedNews } from "@/components/site/FeaturedNews";
 import { articles, globalTimeline, sections } from "@/data/news";
 
 export const Route = createFileRoute("/")({
@@ -72,6 +73,8 @@ function Index() {
             </section>
           </aside>
         </div>
+
+        <FeaturedNews />
 
         <HomeLiveFeed />
 

@@ -40,8 +40,8 @@ function AboutPage() {
           <h2 className="pt-3 text-2xl">Metodología de fuentes</h2>
           <ul className="list-disc space-y-2 pl-6">
             <li>
-              Cada nota se apoya en informes de organismos multilaterales, misiones de
-              Naciones Unidas y organizaciones de derechos humanos, citados al pie.
+              Cada nota se apoya en informes de organismos multilaterales, misiones de Naciones
+              Unidas y organizaciones de derechos humanos, citados al pie.
             </li>
             <li>
               Cuando una cifra cambia con frecuencia —víctimas, desplazados, inseguridad
@@ -49,17 +49,18 @@ function AboutPage() {
               disponible de la fuente citada.
             </li>
             <li>
-              En temas con posiciones encontradas se presentan los distintos puntos de vista
-              antes de explicar por qué generan preocupación en organismos de derechos humanos.
+              En temas con posiciones encontradas se presentan los distintos puntos de vista antes
+              de explicar por qué generan preocupación en organismos de derechos humanos.
             </li>
             <li>Todas las notas incluyen la fecha de su última actualización.</li>
           </ul>
           <h2 className="pt-3 text-2xl">Aclaraciones</h2>
           <p>
-            Las firmas de autor y los perfiles de redes sociales son ficticios y cumplen una
-            función ilustrativa dentro del proyecto. Las imágenes son ilustrativas y temáticas
-            (mapas, paisajes, infraestructura, escenarios) y no retratan personas reales
-            identificables.
+            Las firmas de autor y los perfiles de redes sociales son ficticios y cumplen una función
+            ilustrativa dentro del proyecto. Las imágenes son fotografías reales de Wikimedia
+            Commons y Openverse con licencias libres (dominio público, CC0, CC BY o CC BY-SA),
+            creditadas al pie de cada foto; se eligen ciudades, paisajes e hitos institucionales y
+            se evitan contenidos gráficos o sensibles.
           </p>
           <h2 className="pt-3 text-2xl">Tono editorial</h2>
           <p>

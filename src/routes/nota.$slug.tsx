@@ -78,8 +78,7 @@ function ArticlePage() {
             </p>
             <p className="font-ui mt-4 border-y border-border py-2 text-[11px] text-muted-foreground">
               Por <strong className="text-foreground">{article.author}</strong> ·{" "}
-              {formatDate(article.date)} · Última actualización:{" "}
-              {formatDate(article.updated)}
+              {formatDate(article.date)} · Última actualización: {formatDate(article.updated)}
             </p>
 
             <img
@@ -90,7 +89,7 @@ function ArticlePage() {
               className="mt-5 aspect-video w-full object-cover"
             />
             <p className="font-ui mt-2 text-[11px] text-muted-foreground">
-              {article.imageAlt}. Imagen ilustrativa.
+              {article.imageAlt}. {article.imageCredit ?? "Imagen ilustrativa."}
             </p>
 
             <div className="article-body mt-6 space-y-5">
@@ -139,8 +138,8 @@ function ArticlePage() {
                 ))}
               </ul>
               <p className="font-ui mt-4 text-[11px] text-muted-foreground">
-                Las cifras citadas deben verificarse contra el último informe publicado por
-                cada organismo.
+                Las cifras citadas deben verificarse contra el último informe publicado por cada
+                organismo.
               </p>
             </section>
           </article>

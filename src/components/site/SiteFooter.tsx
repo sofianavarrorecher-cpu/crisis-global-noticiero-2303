@@ -9,14 +9,22 @@ export function SiteFooter() {
         <div>
           <p className="font-headline text-2xl font-bold uppercase">Crisis Global</p>
           <p className="font-ui mt-3 text-xs leading-relaxed text-background/70">
-            Portal de noticias internacionales dedicado a conflictos armados, derechos humanos
-            y crisis globales con poca cobertura en los grandes medios.
+            Portal de noticias internacionales dedicado a conflictos armados, derechos humanos y
+            crisis globales con poca cobertura en los grandes medios.
           </p>
           <div className="mt-4 flex gap-3 text-background/70">
-            <span aria-label="Facebook (ficticio)"><Facebook className="size-4" /></span>
-            <span aria-label="Instagram (ficticio)"><Instagram className="size-4" /></span>
-            <span aria-label="X (ficticio)"><Twitter className="size-4" /></span>
-            <span aria-label="YouTube (ficticio)"><Youtube className="size-4" /></span>
+            <span aria-label="Facebook (ficticio)">
+              <Facebook className="size-4" />
+            </span>
+            <span aria-label="Instagram (ficticio)">
+              <Instagram className="size-4" />
+            </span>
+            <span aria-label="X (ficticio)">
+              <Twitter className="size-4" />
+            </span>
+            <span aria-label="YouTube (ficticio)">
+              <Youtube className="size-4" />
+            </span>
           </div>
           <p className="font-ui mt-2 text-[10px] text-background/50">
             Perfiles de redes sociales ficticios, con fines ilustrativos.
@@ -43,10 +51,7 @@ export function SiteFooter() {
               </Link>
             </li>
             <li>
-              <Link
-                to="/sobre-este-proyecto"
-                className="text-background/80 hover:text-background"
-              >
+              <Link to="/sobre-este-proyecto" className="text-background/80 hover:text-background">
                 Sobre este proyecto
               </Link>
             </li>
@@ -74,11 +79,12 @@ export function SiteFooter() {
 
       <div className="border-t border-background/15">
         <p className="font-ui mx-auto max-w-6xl px-4 py-6 text-[11px] leading-relaxed text-background/60">
-          <strong className="text-background/80">Aclaración editorial:</strong> Crisis Global es
-          un proyecto informativo y educativo, sin fines comerciales. Los autores firmantes son
-          ficticios y las imágenes son ilustrativas. Los datos provienen de organismos públicos
-          y organizaciones de derechos humanos citados al pie de cada nota; las cifras deben
-          verificarse contra el último informe disponible de cada fuente.
+          <strong className="text-background/80">Aclaración editorial:</strong> Crisis Global es un
+          proyecto informativo y educativo, sin fines comerciales. Los autores firmantes son
+          ficticios y las imágenes son fotografías reales de licencia libre, creditadas al pie de
+          cada nota. Los datos provienen de organismos públicos y organizaciones de derechos humanos
+          citados al pie de cada nota; las cifras deben verificarse contra el último informe
+          disponible de cada fuente.
         </p>
       </div>
     </footer>

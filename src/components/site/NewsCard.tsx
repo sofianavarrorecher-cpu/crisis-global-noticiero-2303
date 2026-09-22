@@ -52,6 +52,11 @@ export function NewsCard({ article, variant = "card" }: { article: Article; vari
             height={720}
             className="aspect-video w-full object-cover"
           />
+          {article.imageCredit && (
+            <p className="font-ui px-4 pt-1 text-[10px] text-muted-foreground sm:px-6">
+              {article.imageCredit}
+            </p>
+          )}
           <div className="p-4 sm:p-6">
             <CategoryTag tone="breaking">{article.category}</CategoryTag>
             <h2 className="mt-3 text-3xl sm:text-4xl md:text-5xl group-hover:text-primary">
@@ -82,6 +87,9 @@ export function NewsCard({ article, variant = "card" }: { article: Article; vari
             className="aspect-video w-full object-cover"
           />
           <div className="px-1 sm:px-0">
+            {article.imageCredit && (
+              <p className="font-ui text-[10px] text-muted-foreground">{article.imageCredit}</p>
+            )}
             <CategoryTag>{article.category}</CategoryTag>
             <h3 className="mt-2 text-xl sm:text-2xl group-hover:text-primary">{article.title}</h3>
             <p className="mt-2 text-sm leading-relaxed text-muted-foreground">{article.copete}</p>
@@ -104,6 +112,9 @@ export function NewsCard({ article, variant = "card" }: { article: Article; vari
           className="aspect-video w-full object-cover"
         />
         <div className="flex flex-1 flex-col pt-3">
+          {article.imageCredit && (
+            <p className="font-ui text-[10px] text-muted-foreground">{article.imageCredit}</p>
+          )}
           <CategoryTag>{article.category}</CategoryTag>
           <h3 className="mt-2 text-lg group-hover:text-primary">{article.title}</h3>
           <p className="mt-2 line-clamp-3 text-sm leading-relaxed text-muted-foreground">
