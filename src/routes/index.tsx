@@ -76,6 +76,8 @@ function Index() {
 
         <FeaturedNews />
 
+        <FeaturedNews feed="argentina" />
+
         <HomeLiveFeed />
 
         <section className="mt-12">

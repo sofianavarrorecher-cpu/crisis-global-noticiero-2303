@@ -1,16 +1,34 @@
 import { useQuery } from "@tanstack/react-query";
 import { useServerFn } from "@tanstack/react-start";
-import { ExternalLink } from "lucide-react";
-import { getFeaturedNews } from "@/lib/featured-news.functions";
+import { ExternalLink, ShieldCheck } from "lucide-react";
+import { getArgentinaNews, getFeaturedNews } from "@/lib/featured-news.functions";
 import { SectionTitle } from "@/components/site/Sidebar";
 import { CategoryTag } from "@/components/site/NewsCard";
 import { relativeTime } from "@/components/site/LiveFeed";
 
-export function FeaturedNews() {
-  const fetchFeatured = useServerFn(getFeaturedNews);
+const FEEDS = {
+  world: {
+    title: "Lo último en el mundo",
+    note: "Actualizado a diario · fotos con licencia libre (Wikimedia Commons / Openverse)",
+    empty:
+      "Todavía no hay noticias frescas de crisis relevantes en las fuentes consultadas. Volvé a revisar más tarde.",
+    error: "No se pudieron cargar las noticias de última hora.",
+  },
+  argentina: {
+    title: "Argentina",
+    note: "Fuentes confiables · actualizado a diario · fotos con licencia libre",
+    empty:
+      "Todavía no hay noticias frescas de Argentina en las fuentes consultadas. Volvé a revisar más tarde.",
+    error: "No se pudieron cargar las noticias de Argentina.",
+  },
+} as const;
+
+export function FeaturedNews({ feed = "world" }: { feed?: keyof typeof FEEDS }) {
+  const config = FEEDS[feed];
+  const fetchFeed = useServerFn(feed === "argentina" ? getArgentinaNews : getFeaturedNews);
   const { data, isPending, isError, refetch } = useQuery({
-    queryKey: ["featured-news"],
-    queryFn: () => fetchFeatured(),
+    queryKey: ["featured-news", feed],
+    queryFn: () => fetchFeed(),
     staleTime: 30 * 60 * 1000,
     refetchInterval: 60 * 60 * 1000,
   });
@@ -20,10 +38,8 @@ export function FeaturedNews() {
   return (
     <section className="mt-12">
       <div className="flex flex-wrap items-end justify-between gap-3">
-        <SectionTitle>Lo último en el mundo</SectionTitle>
-        <p className="font-ui mb-3 text-[11px] text-muted-foreground">
-          Actualizado a diario · fotos con licencia libre (Wikimedia Commons / Openverse)
-        </p>
+        <SectionTitle>{config.title}</SectionTitle>
+        <p className="font-ui mb-3 text-[11px] text-muted-foreground">{config.note}</p>
       </div>
 
       {isPending && (
@@ -41,7 +57,7 @@ export function FeaturedNews() {
 
       {isError && (
         <div className="border border-border bg-muted p-4">
-          <p className="font-ui text-xs">No se pudieron cargar las noticias de última hora.</p>
+          <p className="font-ui text-xs">{config.error}</p>
           <button
             onClick={() => refetch()}
             className="font-ui mt-2 bg-primary px-3 py-1.5 text-xs font-semibold text-primary-foreground"
@@ -53,8 +69,7 @@ export function FeaturedNews() {
 
       {!isPending && !isError && items.length === 0 && (
         <p className="font-ui border border-border bg-muted p-4 text-xs text-muted-foreground">
-          Todavía no hay noticias frescas de crisis relevantes en las fuentes consultadas. Volvé a
-          revisar más tarde.
+          {config.empty}
         </p>
       )}
 
@@ -94,6 +109,9 @@ export function FeaturedNews() {
                     {item.copete}
                   </p>
                   <p className="font-ui mt-auto pt-2 text-[11px] text-muted-foreground">
+                    {item.trusted && (
+                      <ShieldCheck className="mr-1 inline size-3.5 text-primary" aria-hidden />
+                    )}
                     {item.source} · {relativeTime(item.publishedAt)}
                   </p>
                 </div>

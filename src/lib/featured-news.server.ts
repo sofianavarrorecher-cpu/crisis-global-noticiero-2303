@@ -10,6 +10,7 @@ export type FeaturedItem = {
   image: string;
   imageAlt: string;
   imageCredit: string;
+  trusted?: boolean;
 };
 
 type FeaturedTopic = {
@@ -19,6 +20,8 @@ type FeaturedTopic = {
   topicLabel: string;
   category: string;
   positiveTerms: string[];
+  mkt?: string;
+  engine?: "google";
 };
 
 /** Temas de crisis relevantes a nivel mundial. */
@@ -94,6 +97,81 @@ const TOPICS: FeaturedTopic[] = [
     topicLabel: "Crisis del agua",
     category: "Medio Ambiente",
     positiveTerms: ["drought", "dry", "lake", "reservoir", "cracked"],
+  },
+];
+
+/** Medios argentinos confiables: priorizan los resultados de la sección Argentina. */
+const ARG_TRUSTED = [
+  "argentina.gob.ar",
+  "telam.com.ar",
+  "infobae.com",
+  "clarin.com",
+  "lanacion.com.ar",
+  "ambito.com",
+  "cronista.com",
+  "pagina12.com.ar",
+  "cadenaser.com",
+  "perf.com.ar",
+  "iprofesional.com",
+  "tn.com.ar",
+  "chequeado.com",
+];
+
+/** Temas de actualidad argentina (API pública de Bing News, mercado es-ar). */
+const ARG_TOPICS: FeaturedTopic[] = [
+  {
+    id: "ar-politica",
+    query: "Argentina gobierno política",
+    mkt: "es-ar",
+    imageQuery: "Casa Rosada Buenos Aires",
+    topicLabel: "Argentina",
+    category: "Política",
+    positiveTerms: ["casa", "rosada", "congreso", "palacio"],
+  },
+  {
+    id: "ar-economia",
+    query: "economía Argentina empleo inflación comercio",
+    mkt: "es-ar",
+    imageQuery: "Obelisco Buenos Aires",
+    topicLabel: "Argentina",
+    category: "Economía",
+    positiveTerms: ["obelisco", "buenos", "aires", "avenida"],
+  },
+  {
+    id: "ar-ambiente",
+    query: "lluvias inundaciones sequía Argentina",
+    mkt: "es-ar",
+    imageQuery: "Andes Mendoza mountains",
+    topicLabel: "Argentina",
+    category: "Clima y Ambiente",
+    positiveTerms: ["andes", "mendoza", "mountain", "sierra"],
+  },
+  {
+    id: "ar-energia",
+    query: "energía Argentina gas electricidad YPF",
+    mkt: "es-ar",
+    imageQuery: "Patagonia Argentina landscape",
+    topicLabel: "Argentina",
+    category: "Energía",
+    positiveTerms: ["patagonia", "lake", "landscape", "bariloche"],
+  },
+  {
+    id: "ar-sociedad",
+    query: "salud educación seguridad Argentina",
+    mkt: "es-ar",
+    imageQuery: "Buenos Aires street",
+    topicLabel: "Argentina",
+    category: "Sociedad",
+    positiveTerms: ["buenos", "street", "avenida", "calle"],
+  },
+  {
+    id: "ar-oficial",
+    query: "site:argentina.gob.ar",
+    engine: "google",
+    imageQuery: "Buenos Aires monument flag",
+    topicLabel: "Argentina",
+    category: "Gobierno",
+    positiveTerms: ["bandera", "monument", "flag", "rosario"],
   },
 ];
 
@@ -199,8 +277,11 @@ function parseNewsRss(xml: string, topic: FeaturedTopic, fallbackSource: string)
   return out;
 }
 
-function bingNewsUrl(query: string) {
-  return `https://www.bing.com/news/search?q=${encodeURIComponent(query)}&format=rss&setlang=es`;
+function bingNewsUrl(query: string, mkt?: string) {
+  return (
+    `https://www.bing.com/news/search?q=${encodeURIComponent(query)}` +
+    `&format=rss&setlang=es${mkt ? `&setmkt=${encodeURIComponent(mkt)}` : ""}`
+  );
 }
 
 function googleNewsUrl(query: string) {
@@ -330,44 +411,52 @@ async function getPool(topic: FeaturedTopic): Promise<ImageCandidate[]> {
   return pool;
 }
 
-/**
- * Trae noticias de crisis relevantes desde la API pública de Bing News
- * (con Google News como respaldo), con fotos reales de licencia libre
- * de Wikimedia Commons u Openverse. Caché de 1 hora.
- */
-export async function fetchFeaturedNews(limit = 9): Promise<FeaturedItem[]> {
-  const hit = newsCache.get("__featured");
+async function fetchTopicRaw(topic: FeaturedTopic): Promise<RawNews[]> {
+  if (topic.engine === "google") {
+    try {
+      return parseNewsRss(await fetchText(googleNewsUrl(topic.query)), topic, "Agencias");
+    } catch {
+      return [];
+    }
+  }
+  let raw: RawNews[] = [];
+  try {
+    raw = parseNewsRss(await fetchText(bingNewsUrl(topic.query, topic.mkt)), topic, "Bing News");
+  } catch {
+    raw = [];
+  }
+  if (raw.length < 2) {
+    try {
+      const google = parseNewsRss(await fetchText(googleNewsUrl(topic.query)), topic, "Agencias");
+      raw = [...raw, ...google];
+    } catch {
+      /* sin respaldo */
+    }
+  }
+  return raw;
+}
+
+function isArgTrusted(url: string, source?: string) {
+  const haystack = `${url} ${source ?? ""}`.toLowerCase();
+  return ARG_TRUSTED.some((d) => haystack.includes(d));
+}
+
+async function collectFeatured(
+  topics: FeaturedTopic[],
+  cacheKey: string,
+  limit: number,
+  preferTrusted = false,
+): Promise<FeaturedItem[]> {
+  const hit = newsCache.get(cacheKey);
   if (hit && Date.now() - hit.at < NEWS_TTL_MS) return hit.items;
 
-  const settled = await Promise.allSettled(
-    TOPICS.map(async (topic) => {
-      let raw: RawNews[] = [];
-      try {
-        raw = parseNewsRss(await fetchText(bingNewsUrl(topic.query)), topic, "Bing News");
-      } catch {
-        raw = [];
-      }
-      if (raw.length < 2) {
-        try {
-          const google = parseNewsRss(
-            await fetchText(googleNewsUrl(topic.query)),
-            topic,
-            "Agencias",
-          );
-          raw = [...raw, ...google];
-        } catch {
-          /* sin respaldo */
-        }
-      }
-      return raw;
-    }),
-  );
+  const settled = await Promise.allSettled(topics.map(fetchTopicRaw));
 
   const maxAge = Date.now() - 3 * 24 * 60 * 60 * 1000;
   const seen = new Set<string>();
-  const candidates: { topic: FeaturedTopic; news: RawNews }[] = [];
-  for (let i = 0; i < TOPICS.length; i++) {
-    const topic = TOPICS[i]!;
+  const candidates: { topic: FeaturedTopic; news: RawNews; trusted: boolean }[] = [];
+  for (let i = 0; i < topics.length; i++) {
+    const topic = topics[i]!;
     const res = settled[i];
     if (res.status !== "fulfilled") continue;
     const fresh = res.value
@@ -378,16 +467,17 @@ export async function fetchFeaturedNews(limit = 9): Promise<FeaturedItem[]> {
       const key = normalizeKey(news.title);
       if (seen.has(key)) continue;
       seen.add(key);
-      candidates.push({ topic, news });
+      candidates.push({ topic, news, trusted: isArgTrusted(news.url, news.source) });
     }
   }
 
-  candidates.sort(
-    (a, b) => new Date(b.news.publishedAt).getTime() - new Date(a.news.publishedAt).getTime(),
-  );
+  candidates.sort((a, b) => {
+    if (preferTrusted && a.trusted !== b.trusted) return a.trusted ? -1 : 1;
+    return new Date(b.news.publishedAt).getTime() - new Date(a.news.publishedAt).getTime();
+  });
 
   const perTopic = new Map<string, number>();
-  const picked: { topic: FeaturedTopic; news: RawNews }[] = [];
+  const picked: { topic: FeaturedTopic; news: RawNews; trusted: boolean }[] = [];
   for (const c of candidates) {
     if (picked.length >= limit) break;
     const n = perTopic.get(c.topic.id) ?? 0;
@@ -396,17 +486,16 @@ export async function fetchFeaturedNews(limit = 9): Promise<FeaturedItem[]> {
     picked.push(c);
   }
 
-  const poolTopicIds = [...new Set(picked.map((p) => p.topic.id))];
   const pools = new Map<string, ImageCandidate[]>();
   await Promise.all(
-    poolTopicIds.map(async (id) => {
-      const topic = TOPICS.find((t) => t.id === id)!;
+    [...new Set(picked.map((p) => p.topic.id))].map(async (id) => {
+      const topic = topics.find((t) => t.id === id)!;
       pools.set(id, await getPool(topic));
     }),
   );
 
   const poolIndex = new Map<string, number>();
-  const items: FeaturedItem[] = picked.map(({ topic, news }) => {
+  const items: FeaturedItem[] = picked.map(({ topic, news, trusted }) => {
     const pool = pools.get(topic.id) ?? [];
     const idx = poolIndex.get(topic.id) ?? 0;
     poolIndex.set(topic.id, idx + 1);
@@ -423,9 +512,29 @@ export async function fetchFeaturedNews(limit = 9): Promise<FeaturedItem[]> {
       image: img?.url ?? "",
       imageAlt: img?.alt ?? topic.topicLabel,
       imageCredit: img?.credit ?? "Sin imagen disponible",
+      ...(preferTrusted ? { trusted } : {}),
     };
   });
 
-  if (items.length > 0) newsCache.set("__featured", { at: Date.now(), items });
+  if (items.length > 0) newsCache.set(cacheKey, { at: Date.now(), items });
   return items;
+}
+
+/**
+ * Trae noticias de crisis relevantes desde la API pública de Bing News
+ * (con Google News como respaldo), con fotos reales de licencia libre
+ * de Wikimedia Commons u Openverse. Caché de 1 hora.
+ */
+export async function fetchFeaturedNews(limit = 9): Promise<FeaturedItem[]> {
+  return collectFeatured(TOPICS, "__featured", limit);
+}
+
+/**
+ * Noticias de actualidad argentina desde la misma API pública, con
+ * mercado es-ar, prioridad para medios confiables (argentina.gob.ar,
+ * Telam, Infobae, Clarín, La Nación, Ámbito, entre otros) y un feed
+ * directo de site:argentina.gob.ar. Caché de 1 hora.
+ */
+export async function fetchArgentinaNews(limit = 6): Promise<FeaturedItem[]> {
+  return collectFeatured(ARG_TOPICS, "__featured_ar", limit, true);
 }
