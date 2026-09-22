@@ -183,6 +183,29 @@ export async function fetchTopicNews(topicId: string): Promise<{ items: LiveItem
   return { items, fetchedAt: new Date().toISOString() };
 }
 
+/** Agrega las actualizaciones diarias de varios temas para la portada. */
+export async function fetchHomeFeed(
+  ids: string[],
+  perTopic = 3,
+): Promise<{ slug: string; topic: string; items: LiveItem[] }[]> {
+  const settled = await Promise.allSettled(ids.map((id) => fetchTopicNews(id)));
+  return ids
+    .map((id, i) => {
+      const topic = liveTopics.find((t) => t.id === id);
+      if (!topic) return null;
+      const res = settled[i];
+      return {
+        slug: topic.id,
+        topic: topic.name,
+        items: res.status === "fulfilled" ? res.value.items.slice(0, perTopic) : [],
+      };
+    })
+    .filter(
+      (g): g is { slug: string; topic: string; items: LiveItem[] } =>
+        !!g && g.items.length > 0,
+    );
+}
+
 /** Últimas noticias oficiales de Noticias ONU (para la portada). */
 export async function fetchUnNews(limit = 6): Promise<LiveItem[]> {
   const key = `__un_${limit}`;

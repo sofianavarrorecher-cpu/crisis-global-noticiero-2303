@@ -79,8 +79,8 @@ function LivePage() {
           </ul>
         </nav>
 
-        <div className="mt-8 grid gap-10 lg:grid-cols-[1fr_320px]">
-          <div>
+        <div className="mt-8 grid gap-10 lg:grid-cols-[minmax(0,1fr)_320px]">
+          <div className="min-w-0">
             <h2 className="text-3xl sm:text-4xl">{topic.name}</h2>
 
             <section className="mt-4 border-l-4 border-breaking bg-muted p-4">

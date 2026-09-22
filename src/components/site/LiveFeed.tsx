@@ -18,7 +18,7 @@ export function relativeTime(iso: string) {
 
 export function LiveItemRow({ item }: { item: LiveItem }) {
   return (
-    <li className="py-3">
+    <li className="min-w-0 py-3">
       <a href={item.url} target="_blank" rel="noopener noreferrer" className="group block">
         <p className="font-ui flex flex-wrap items-center gap-2 text-[11px] text-muted-foreground">
           <span className={item.trusted ? "font-semibold text-primary" : ""}>
@@ -27,12 +27,14 @@ export function LiveItemRow({ item }: { item: LiveItem }) {
           </span>
           <span>· {relativeTime(item.publishedAt)}</span>
         </p>
-        <h3 className="mt-1 text-lg leading-snug group-hover:text-primary">
+        <h3 className="mt-1 break-words text-lg leading-snug group-hover:text-primary">
           {item.title}
-          <ExternalLink className="ml-1 inline size-3.5 text-muted-foreground" />
+          <ExternalLink className="ml-1 inline size-3.5 shrink-0 text-muted-foreground" />
         </h3>
         {item.description && (
-          <p className="mt-1 line-clamp-2 text-sm text-muted-foreground">{item.description}</p>
+          <p className="mt-1 break-words text-sm leading-relaxed text-muted-foreground line-clamp-2">
+            {item.description}
+          </p>
         )}
       </a>
     </li>

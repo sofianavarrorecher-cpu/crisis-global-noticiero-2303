@@ -15,3 +15,12 @@ export const getUnHeadlines = createServerFn({ method: "GET" }).handler(async ()
   const { fetchUnNews } = await import("./live-news.server");
   return fetchUnNews(6);
 });
+
+export const getDailyUpdates = createServerFn({ method: "GET" })
+  .inputValidator((data: unknown) =>
+    z.object({ ids: z.array(z.enum(topicIds)).min(1).max(20) }).parse(data),
+  )
+  .handler(async ({ data }) => {
+    const { fetchHomeFeed } = await import("./live-news.server");
+    return fetchHomeFeed(data.ids);
+  });

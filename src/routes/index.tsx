@@ -3,6 +3,7 @@ import { SiteHeader } from "@/components/site/SiteHeader";
 import { SiteFooter } from "@/components/site/SiteFooter";
 import { NewsCard } from "@/components/site/NewsCard";
 import { MostRead, SectionTitle, Timeline } from "@/components/site/Sidebar";
+import { HomeLiveFeed } from "@/components/site/HomeLiveFeed";
 import { articles, globalTimeline, sections } from "@/data/news";
 
 export const Route = createFileRoute("/")({
@@ -39,7 +40,7 @@ function Index() {
       <main className="mx-auto max-w-6xl px-4 py-6">
         <h1 className="sr-only">Crisis Global — portada de noticias internacionales</h1>
 
-        <div className="grid gap-8 lg:grid-cols-[1fr_320px]">
+        <div className="grid gap-8 lg:grid-cols-[minmax(0,1fr)_320px]">
           <div>
             {hero && <NewsCard article={hero} variant="hero" />}
 
@@ -71,6 +72,8 @@ function Index() {
             </section>
           </aside>
         </div>
+
+        <HomeLiveFeed />
 
         <section className="mt-12">
           <SectionTitle>Todas las coberturas</SectionTitle>
